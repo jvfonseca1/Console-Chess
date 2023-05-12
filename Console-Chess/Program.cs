@@ -1,10 +1,15 @@
-﻿namespace Console_Chess
+﻿using System;
+using Board;
+
+namespace Console_Chess
 {
     internal class Program
     {
         static void Main (string [] args)
         {
-            Console.WriteLine ("Hello, World!");
+            Position P = new Position (3, 4);
+
+            Console.WriteLine ("Position: " + P);
         }
     }
 }
