@@ -12,7 +12,9 @@ namespace Console_Chess
             Console.WriteLine ("Position: " + P);
 
             Board board = new Board (8, 8);
-            Console.WriteLine ("Board generated successfully");
+            Console.WriteLine ("Board generated successfully\n");
+
+            Screen.printBoard (board);
         }
     }
 }
