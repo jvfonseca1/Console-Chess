@@ -4,11 +4,11 @@ namespace chess
 {
     internal class Queen : Piece
     {
-        public Queen (Board board, Color color) : base (board, color)
+        public Queen(Board board, Color color) : base(board, color)
         {
         }
 
-        public override string ToString ()
+        public override string ToString()
         {
             return "\u265B";
         }
