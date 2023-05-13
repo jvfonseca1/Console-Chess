@@ -10,7 +10,7 @@ namespace chess
 
         public override string ToString ()
         {
-            return "p";
+            return "\u265F";
         }
     }
 }

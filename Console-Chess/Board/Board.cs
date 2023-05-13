@@ -18,10 +18,42 @@
             return Pieces [line, column];
         }
 
+        public Piece Piece (Position pos)
+        {
+            return Pieces [pos.Line, pos.Column];
+        }
+
+        public bool hasPiece(Position pos)
+        {
+            validatePosition(pos);
+            return Piece(pos) != null;
+        }
+
         public void placePiece (Piece p, Position pos)
         {
+            if (hasPiece (pos))
+            {
+                throw new BoardException("There alredy is a piece in this position!");
+            }
             Pieces [pos.Line, pos.Column] = p;
             p.Position = pos;
+        }
+
+        public bool validPosition(Position pos)
+        {
+            if  (pos.Line < 0 || pos.Line > Lines || pos.Column < 0 || pos.Column > Columns)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public void validatePosition (Position pos)
+        {
+            if (!validPosition (pos))
+            {
+                throw new BoardException ("Invalid position!");
+            }
         }
     }
 }
