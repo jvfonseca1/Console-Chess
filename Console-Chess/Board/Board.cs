@@ -1,4 +1,6 @@
-﻿namespace board
+﻿using chess;
+
+namespace board
 {
     internal class Board
     {
@@ -39,6 +41,18 @@
             p.Position = pos;
         }
 
+        public Piece takePiece (Position pos)
+        {
+            if (Piece(pos) == null)
+            {
+                return null;
+            }
+            Piece aux = Piece (pos);
+            aux.Position = null;
+            Pieces [pos.Line, pos.Column] = null;
+            return aux;
+        }
+
         public bool validPosition(Position pos)
         {
             if  (pos.Line < 0 || pos.Line > Lines || pos.Column < 0 || pos.Column > Columns)
@@ -54,6 +68,11 @@
             {
                 throw new BoardException ("Invalid position!");
             }
+        }
+
+        internal void placePiece (Rook rook, Func<Position> toPosition)
+        {
+            throw new NotImplementedException ();
         }
     }
 }

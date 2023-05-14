@@ -14,5 +14,10 @@
             Color = color;
             MoveCount = 0;
         }
+
+        public void addMove ()
+        {
+            MoveCount++;
+        }
     }
 }
