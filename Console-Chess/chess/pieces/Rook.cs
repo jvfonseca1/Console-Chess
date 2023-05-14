@@ -25,7 +25,7 @@ namespace chess
             Position pos = new Position(0, 0);
 
             //up
-            pos.defineValues(pos.Line - 1, pos.Column);
+            pos.defineValues(Position.Line - 1, Position.Column);
             while (Board.validPosition(pos) && canMove(pos))
             {
                 mat[pos.Line, pos.Column] = true;
@@ -38,7 +38,7 @@ namespace chess
             }
 
             //down
-            pos.defineValues(pos.Line - 1, pos.Column);
+            pos.defineValues(Position.Line + 1, Position.Column);
             while (Board.validPosition(pos) && canMove(pos))
             {
                 mat[pos.Line, pos.Column] = true;
@@ -51,7 +51,7 @@ namespace chess
             }
 
             //left
-            pos.defineValues(pos.Line, pos.Column - 1);
+            pos.defineValues(Position.Line, Position.Column - 1);
             while (Board.validPosition(pos) && canMove(pos))
             {
                 mat[pos.Line, pos.Column] = true;
@@ -64,7 +64,7 @@ namespace chess
             }
 
             //right
-            pos.defineValues(pos.Line, pos.Column + 1);
+            pos.defineValues(Position.Line, Position.Column + 1);
             while (Board.validPosition(pos) && canMove(pos))
             {
                 mat[pos.Line, pos.Column] = true;

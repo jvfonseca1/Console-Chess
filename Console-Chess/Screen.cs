@@ -39,11 +39,11 @@ namespace Console_Chess
                         Console.BackgroundColor = orignial;
                     }
                     printPiece(board.Piece(i, j));
+                    Console.BackgroundColor = orignial;
                 }
                 Console.WriteLine();
             }
-            Console.WriteLine("  a b c d e f g h");
-        }
+            Console.WriteLine("  a b c d e f g h");        }
 
         public static ChessPosition readChessPosition()
         {

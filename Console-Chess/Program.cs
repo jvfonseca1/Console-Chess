@@ -28,7 +28,7 @@ namespace Console_Chess
                     Screen.printBoard(game.Board, possiblePositions);
 
 
-                    Console.Write ("Destination: ");
+                    Console.Write ("\nDestination: ");
                     Position destination = Screen.readChessPosition ().toPosition ();
 
                     game.executeMove (origin, destination);
