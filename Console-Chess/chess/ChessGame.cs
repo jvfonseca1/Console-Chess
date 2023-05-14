@@ -48,12 +48,9 @@ namespace chess
             Board.placePiece (new Rook (Board, Color.White), new ChessPosition ('a', 1).toPosition());
             Board.placePiece (new Knight (Board, Color.White), new ChessPosition ('b', 1).toPosition());
             Board.placePiece (new Bishop (Board, Color.White), new ChessPosition ('c', 1).toPosition());
-            Board.placePiece (new Queen (Board, Color.White), new ChessPosition ('d', 1).toPosition());
-            Board.placePiece (new King (Board, Color.White), new ChessPosition ('e', 1).toPosition());
-            Board.placePiece (new Bishop (Board, Color.White), new ChessPosition ('f', 1).toPosition());
+            Board.placePiece(new King(Board, Color.White), new ChessPosition('e', 1).toPosition());
             Board.placePiece (new Knight (Board, Color.White), new ChessPosition ('g', 1).toPosition());
-            Board.placePiece (new Rook (Board, Color.White), new ChessPosition ('h', 1).toPosition());
-            Board.placePiece (new Pawn (Board, Color.White), new ChessPosition ('a', 2).toPosition());
+            Board.placePiece(new Rook(Board, Color.White), new ChessPosition('h', 1).toPosition());
             Board.placePiece (new Pawn (Board, Color.White), new ChessPosition ('b', 2).toPosition());
             Board.placePiece (new Pawn (Board, Color.White), new ChessPosition ('c', 2).toPosition());
             Board.placePiece (new Pawn (Board, Color.White), new ChessPosition ('d', 2).toPosition());
