@@ -12,5 +12,10 @@ namespace chess
         {
             return "\u265C";
         }
+
+        public override bool[,] possibleMoves()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
