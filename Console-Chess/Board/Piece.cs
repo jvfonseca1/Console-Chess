@@ -15,6 +15,22 @@
             MoveCount = 0;
         }
 
+        public bool hasMoves ()
+        {
+            bool [,] mat = possibleMoves();
+            for (int i = 0; i < Board.Lines; i++) 
+            {
+                for (int j = 0; j < Board.Columns; j++) 
+                {
+                    if (mat[i, j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         public abstract bool [,] possibleMoves ();
 
         public void addMove ()
