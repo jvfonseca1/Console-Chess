@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System;
 using board;
 using chess;
 
@@ -6,6 +7,38 @@ namespace Console_Chess
 {
     internal class Screen
     {
+        public static void printGame(ChessGame game)
+        {
+            Console.Clear ();
+            Screen.printBoard (game.Board);
+
+            printCapturedPieces (game);
+
+            Console.WriteLine("\nTurn: " + game.Turn);
+            System.Console.WriteLine("Waiting for a move: " + game.CurrentPlayer);
+        }
+
+        public static void printCapturedPieces (ChessGame game)
+        {
+            Console.WriteLine("Captured Pieces: ");
+            Console.Write("White: ");
+            printHash(game.capturedPieces(Color.Black));
+
+            Console.Write("\nBlack: ");
+            printHash(game.capturedPieces(Color.White));
+        }
+
+        public static void printHash (HashSet<Piece> hash)
+        {
+            Console.Write("[ ");
+            foreach (Piece p in hash)
+            {
+                printPiece(p);
+                Console.Write(" ");
+            } 
+            Console.Write("]");
+        }
+
         public static void printBoard(Board board)
         {
             for (int i = 0; i < board.Lines; i++)
@@ -17,7 +50,7 @@ namespace Console_Chess
                 }
                 Console.WriteLine();
             }
-            Console.WriteLine("  a b c d e f g h");
+            Console.WriteLine("  a b c d e f g h\n");
         }
 
         public static void printBoard(Board board, bool[,] mat)
@@ -43,7 +76,7 @@ namespace Console_Chess
                 }
                 Console.WriteLine();
             }
-            Console.WriteLine("  a b c d e f g h");        }
+            Console.WriteLine("  a b c d e f g h\n");        }
 
         public static ChessPosition readChessPosition()
         {

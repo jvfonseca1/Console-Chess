@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Text;
 using board;
 using chess;
@@ -18,11 +18,7 @@ namespace Console_Chess
                 {
                     try
                     {
-                        Console.Clear ();
-                        Screen.printBoard (game.Board);
-
-                        Console.WriteLine("\nTurn: " + game.Turn);
-                        System.Console.WriteLine("Waiting for a move: " + game.CurrentPlayer);
+                        Screen.printGame (game);
 
                         Console.Write ("\nOrigin: ");
                         Position origin = Screen.readChessPosition ().toPosition ();
