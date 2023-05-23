@@ -33,6 +33,11 @@
 
         public abstract bool [,] possibleMoves ();
 
+        public bool canMoveTo (Position pos)
+        {
+            return possibleMoves()[pos.Line, pos.Column];
+        }
+
         public void addMove ()
         {
             MoveCount++;

@@ -36,6 +36,7 @@ namespace Console_Chess
 
                         Console.Write ("\nDestination: ");
                         Position destination = Screen.readChessPosition ().toPosition ();
+                        game.validateDestination(origin, destination);
 
                         game.makePlay (origin, destination);
                     }

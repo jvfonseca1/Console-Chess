@@ -69,10 +69,5 @@ namespace board
                 throw new BoardException ("Invalid position!");
             }
         }
-
-        internal void placePiece (Rook rook, Func<Position> toPosition)
-        {
-            throw new NotImplementedException ();
-        }
     }
 }

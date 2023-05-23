@@ -19,17 +19,17 @@ namespace chess
             PlacePieces ();
         }
 
-        private void executeMove(Position origin, Position destiny)
+        private void executeMove(Position origin, Position destination)
         {
             Piece p = Board.takePiece(origin);
             p.addMove ();
-            Piece takenPiece = Board.takePiece(destiny);
-            Board.placePiece (p, destiny);
+            Piece takenPiece = Board.takePiece(destination);
+            Board.placePiece (p, destination);
         }
 
-        public void makePlay(Position origin, Position destiny)
+        public void makePlay(Position origin, Position destination)
         {
-            executeMove(origin, destiny);
+            executeMove(origin, destination);
             Turn++;
             changePlayer();
         }
@@ -46,6 +46,14 @@ namespace chess
             } else if (!Board.Piece(pos).hasMoves())
             {
                 throw new BoardException("No moves for chosen piece!");
+            }
+        }
+
+        public void validateDestination (Position origin, Position destination)
+        {
+            if (!Board.Piece(origin).canMoveTo(destination))
+            {
+                throw new BoardException ("Destination not valid!");
             }
         }
 
