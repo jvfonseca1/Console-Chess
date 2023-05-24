@@ -41,6 +41,11 @@ namespace Console_Chess
                         Console.WriteLine(e.Message);
                         Console.ReadLine();
                     }
+                    catch (IndexOutOfRangeException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Console.ReadLine();
+                    }
                 }
                 
             }

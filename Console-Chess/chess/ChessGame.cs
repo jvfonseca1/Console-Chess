@@ -11,6 +11,7 @@ namespace chess
         public bool Ended { get; private set; }
         private HashSet<Piece> Pieces;
         private HashSet<Piece> Captured;
+        public bool Check { get; private set; }
 
         public ChessGame ()
         {
@@ -20,10 +21,11 @@ namespace chess
             Ended = false; 
             Pieces = new HashSet<Piece>();
             Captured = new HashSet<Piece>();
+            Check = false;
             PlacePieces ();
         }
 
-        private void executeMove(Position origin, Position destination)
+        private Piece executeMove(Position origin, Position destination)
         {
             Piece p = Board.takePiece(origin);
             p.addMove ();
@@ -34,11 +36,43 @@ namespace chess
                 Pieces.Remove (takenPiece);
                 Captured.Add (takenPiece);
             }
+
+            return takenPiece;
+        }
+
+        public void undoMove (Position origin, Position destination, Piece takenPiece)
+        {
+            Piece p = Board.takePiece (destination);
+            p.removeMove ();
+            Board.placePiece (p, origin);
+
+            if (takenPiece != null)
+            {
+                Board.placePiece(takenPiece, destination);
+
+                Captured.Remove (takenPiece);
+                Pieces.Add (takenPiece);
+            }
         }
 
         public void makePlay(Position origin, Position destination)
         {
-            executeMove(origin, destination);
+            Piece takenPiece = executeMove(origin, destination);
+
+            if (isInCheck(CurrentPlayer))
+            {
+                undoMove(origin, destination, takenPiece);
+                throw new BoardException("You can't put yourself in check!");
+            }
+            else if (isInCheck(oponentColor(CurrentPlayer)))
+            {
+                Check = true;
+            }
+            else 
+            {
+                Check = false;
+            }
+
             Turn++;
             changePlayer();
         }
@@ -103,8 +137,48 @@ namespace chess
                 }
             }
 
-
             return aux;
+        }
+
+        private Color oponentColor (Color color)
+        {
+            if (color == Color.White)
+            {
+                return Color.Black;
+            }
+            else
+            {
+                return Color.White;
+            }
+        }
+
+        private Piece checkedKing (Color color)
+        {
+            foreach (Piece p in livePieces(color))
+            {
+                if (p is King)
+                {
+                    return p;
+                }
+            }
+
+            return null;
+        }
+
+        public bool isInCheck (Color color)
+        {
+            Piece king = checkedKing(color);
+            
+            foreach (Piece p in livePieces(oponentColor(color)))
+            {
+                bool [,] mat = p.possibleMoves();
+                if (mat[king.Position.Line, king.Position.Column])
+                {
+                    return true;
+                }
+            }
+            
+            return false;
         }
 
         public void placeNewPiece (char column, int line, Piece piece)
@@ -118,7 +192,8 @@ namespace chess
             placeNewPiece ('d', 1, new King (Board, Color.White));
             placeNewPiece ('d', 8, new King (Board, Color.Black));
             placeNewPiece ('e', 1, new Rook (Board, Color.White));
-            placeNewPiece ('e', 8, new Knight (Board, Color.Black));
+            placeNewPiece ('d', 7, new Rook (Board, Color.Black));
+            placeNewPiece('c', 7, new Rook (Board, Color.White));
         }
     }
 }
