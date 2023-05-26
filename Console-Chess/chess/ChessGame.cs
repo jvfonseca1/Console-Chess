@@ -36,6 +36,26 @@ namespace chess
                 Pieces.Remove (takenPiece);
                 Captured.Add (takenPiece);
             }
+            
+            //#Special Move - Short Castles
+            if (p is King && destination.Column == origin.Column + 2)
+            {
+                Position originR = new Position(origin.Line, origin.Column + 3);
+                Position destinationR = new Position(origin.Line, origin.Column + 1);
+                Piece R = Board.takePiece(originR);
+                R.addMove ();
+                Board.placePiece (R, destinationR);
+            }
+
+            //#Special Long - Short Castles
+            if (p is King && destination.Column == origin.Column - 2)
+            {
+                Position originR = new Position(origin.Line, origin.Column - 4);
+                Position destinationR = new Position(origin.Line, origin.Column - 1);
+                Piece R = Board.takePiece(originR);
+                R.addMove();
+                Board.placePiece(R, destinationR);
+            }
 
             return takenPiece;
         }
@@ -52,6 +72,26 @@ namespace chess
 
                 Captured.Remove (takenPiece);
                 Pieces.Add (takenPiece);
+            }
+
+            //#Special Move - Short Castles
+            if (p is King && destination.Column == origin.Column + 2)
+            {
+                Position originR = new Position(origin.Line, origin.Column + 3);
+                Position destinationR = new Position(origin.Line, origin.Column + 1);
+                Piece R = Board.takePiece(destinationR);
+                R.removeMove();
+                Board.placePiece(R, originR);
+            }
+
+            //#Special Move - Long Castles
+            if (p is King && destination.Column == origin.Column - 2)
+            {
+                Position originR = new Position(origin.Line, origin.Column - 4);
+                Position destinationR = new Position(origin.Line, origin.Column - 1);
+                Piece R = Board.takePiece(destinationR);
+                R.removeMove();
+                Board.placePiece(R, originR);
             }
         }
 
@@ -233,7 +273,7 @@ namespace chess
             placeNewPiece('b', 1, new Knight(Board, Color.White));
             placeNewPiece('c', 1, new Bishop(Board, Color.White));
             placeNewPiece('d', 1, new Queen(Board, Color.White));
-            placeNewPiece('e', 1, new King(Board, Color.White));
+            placeNewPiece('e', 1, new King(Board, Color.White, this));
             placeNewPiece('f', 1, new Bishop(Board, Color.White));
             placeNewPiece('g', 1, new Knight(Board, Color.White));
             placeNewPiece('h', 1, new Rook(Board, Color.White));
@@ -250,7 +290,7 @@ namespace chess
             placeNewPiece('b', 8, new Knight(Board, Color.Black));
             placeNewPiece('c', 8, new Bishop(Board, Color.Black));
             placeNewPiece('d', 8, new Queen(Board, Color.Black));
-            placeNewPiece('e', 8, new King(Board, Color.Black));
+            placeNewPiece('e', 8, new King(Board, Color.Black, this));
             placeNewPiece('f', 8, new Bishop(Board, Color.Black));
             placeNewPiece('g', 8, new Knight(Board, Color.Black));
             placeNewPiece('h', 8, new Rook(Board, Color.Black));

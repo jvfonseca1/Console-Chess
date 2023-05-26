@@ -48,7 +48,6 @@ namespace Console_Chess
             foreach (Piece p in hash)
             {
                 printPiece(p);
-                Console.Write(" ");
             } 
             Console.Write("]");
         }
