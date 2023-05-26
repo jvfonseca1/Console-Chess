@@ -33,7 +33,7 @@
 
         public abstract bool [,] possibleMoves ();
 
-        public bool canMoveTo (Position pos)
+        public bool possibleMove (Position pos)
         {
             return possibleMoves()[pos.Line, pos.Column];
         }
