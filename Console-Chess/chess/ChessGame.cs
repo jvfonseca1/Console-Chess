@@ -1,5 +1,6 @@
 ﻿using System;
 using board;
+using Console_Chess;
 
 namespace chess
 {
@@ -13,6 +14,7 @@ namespace chess
         private HashSet<Piece> Captured;
         public bool Check { get; private set; }
         public Piece PossibleEnPassant { get; private set; }
+        public bool PossiblePromotion { get;  private set; }
 
         public ChessGame ()
         {
@@ -24,6 +26,7 @@ namespace chess
             Captured = new HashSet<Piece>();
             Check = false;
             PossibleEnPassant = null;
+            PossiblePromotion = false;
             PlacePieces ();
         }
 
@@ -143,12 +146,14 @@ namespace chess
         public void makePlay(Position origin, Position destination)
         {
             Piece takenPiece = executeMove(origin, destination);
+            Piece p = Board.Piece(destination);
 
             if (isInCheck(CurrentPlayer))
             {
                 undoMove(origin, destination, takenPiece);
                 throw new BoardException("You can't put yourself in check!");
             }
+
             else if (isInCheck(oponentColor(CurrentPlayer)))
             {
                 Check = true;
@@ -156,6 +161,47 @@ namespace chess
             else 
             {
                 Check = false;
+            }
+
+            //#Special Move - Promotion
+            if (p is Pawn)
+            {
+                if (p.Color == Color.White && destination.Line == 0 || p.Color == Color.Black && destination.Line == 7)
+                {
+                    p = Board.takePiece(destination);
+                    Pieces.Remove(p);
+                    PossiblePromotion = true;
+                    Console.Clear();
+                    Screen.printGame(this);
+                    int n = int.Parse(Console.ReadLine());
+                    if  (n == 1)
+                    {
+                        Piece promoted = new Queen(Board, p.Color);
+                        Pieces.Add(promoted);
+                        Board.placePiece(promoted, new Position(destination.Line, destination.Column));
+                    }
+                    else if (n == 2)
+                    {
+                        Piece promoted = new Rook(Board, p.Color);
+                        Pieces.Add(promoted);
+                        Board.placePiece(promoted, new Position(destination.Line, destination.Column));
+                    }
+                    else if (n == 3)
+                    {
+                        Piece promoted = new Bishop(Board, p.Color);
+                        Pieces.Add(promoted);
+                        Board.placePiece(promoted, new Position(destination.Line, destination.Column));
+                    }
+                    else if (n == 4)
+                    {
+                        Piece promoted = new Knight(Board, p.Color);
+                        Pieces.Add(promoted);
+                        Board.placePiece(promoted, new Position(destination.Line, destination.Column));
+                    }
+                    PossiblePromotion = false;
+                    Console.Clear();
+                    Screen.printGame(this);
+                }
             }
 
             if (testCheckMate(oponentColor(CurrentPlayer)))
@@ -168,7 +214,6 @@ namespace chess
                 changePlayer();
             }
 
-            Piece p = Board.Piece(destination);
 
             //#Special Move - En Passant
             if (p is Pawn && destination.Line == origin.Line - 2 || destination.Line == origin.Line + 2)
@@ -354,7 +399,7 @@ namespace chess
             placeNewPiece('g', 8, new Knight(Board, Color.Black));
             placeNewPiece('h', 8, new Rook(Board, Color.Black));
             placeNewPiece('a', 7, new Pawn(Board, Color.Black, this));
-            placeNewPiece('b', 7, new Pawn(Board, Color.Black, this));
+            placeNewPiece('b', 7, new Pawn(Board, Color.White, this));
             placeNewPiece('c', 7, new Pawn(Board, Color.Black, this));
             placeNewPiece('d', 7, new Pawn(Board, Color.Black, this));
             placeNewPiece('e', 7, new Pawn(Board, Color.Black, this));

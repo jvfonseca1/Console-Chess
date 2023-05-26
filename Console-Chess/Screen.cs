@@ -18,11 +18,22 @@ namespace Console_Chess
 
             if (!game.Ended)
             {
-                System.Console.WriteLine("Waiting for a move: " + game.CurrentPlayer);
-
-                if (game.Check)
+                if (game.PossiblePromotion)
                 {
-                    Console.WriteLine("CHECK");
+                    Console.WriteLine("Choose a piece to promote to: ");
+                    Console.WriteLine("1 - \u265B");
+                    Console.WriteLine("2 - \u265C");
+                    Console.WriteLine("3 - \u265D");
+                    Console.WriteLine("4 - \u265E");
+                }
+                else
+                {
+                    Console.WriteLine("Waiting for a move: " + game.CurrentPlayer);
+
+                    if (game.Check)
+                    {
+                        Console.WriteLine("CHECK");
+                    }
                 }
             }
             else
