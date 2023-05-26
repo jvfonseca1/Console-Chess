@@ -399,7 +399,7 @@ namespace chess
             placeNewPiece('g', 8, new Knight(Board, Color.Black));
             placeNewPiece('h', 8, new Rook(Board, Color.Black));
             placeNewPiece('a', 7, new Pawn(Board, Color.Black, this));
-            placeNewPiece('b', 7, new Pawn(Board, Color.White, this));
+            placeNewPiece('b', 7, new Pawn(Board, Color.Black, this));
             placeNewPiece('c', 7, new Pawn(Board, Color.Black, this));
             placeNewPiece('d', 7, new Pawn(Board, Color.Black, this));
             placeNewPiece('e', 7, new Pawn(Board, Color.Black, this));
