@@ -73,6 +73,11 @@ namespace chess
                 Check = false;
             }
 
+            if (testCheckMate(oponentColor(CurrentPlayer)))
+            {
+                Ended= true;
+            }
+
             Turn++;
             changePlayer();
         }
@@ -166,7 +171,7 @@ namespace chess
         }
 
         public bool isInCheck (Color color)
-        {
+         {
             Piece king = checkedKing(color);
             
             foreach (Piece p in livePieces(oponentColor(color)))
@@ -181,6 +186,41 @@ namespace chess
             return false;
         }
 
+        public bool testCheckMate (Color color)
+        {
+            if (!isInCheck(color))
+            {
+                return false;
+            }
+            
+            foreach (Piece p in livePieces(color))
+            {
+                bool[,] mat = p.possibleMoves();
+
+                for (int i = 0; i < Board.Lines; i++)
+                {
+                    for (int j = 0; j < Board.Columns; j++)
+                    {
+                        if (mat[i, j])
+                        {
+                            Position origin = p.Position;
+                            Position destination = new Position(i, j);
+                            Piece takenPiece = executeMove(origin, destination);
+                            bool testCheck = isInCheck(color);
+                            undoMove(origin, destination, takenPiece);
+
+                            if (!testCheck)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+
         public void placeNewPiece (char column, int line, Piece piece)
         {
             Board.placePiece (piece, new ChessPosition (column, line).toPosition());
@@ -189,11 +229,10 @@ namespace chess
 
         private void PlacePieces ()
         {
-            placeNewPiece ('d', 1, new King (Board, Color.White));
-            placeNewPiece ('d', 8, new King (Board, Color.Black));
-            placeNewPiece ('e', 1, new Rook (Board, Color.White));
-            placeNewPiece ('d', 7, new Rook (Board, Color.Black));
-            placeNewPiece('c', 7, new Rook (Board, Color.White));
+            placeNewPiece ('a', 1, new King (Board, Color.White));
+            placeNewPiece ('g', 8, new King (Board, Color.Black));
+            placeNewPiece ('f', 1, new Rook (Board, Color.White));
+            placeNewPiece('f', 2, new Rook (Board, Color.White));
         }
     }
 }

@@ -18,6 +18,7 @@ namespace Console_Chess
                 {
                     try
                     {
+                        Console.Clear();
                         Screen.printGame (game);
 
                         Console.Write ("\nOrigin: ");
@@ -48,7 +49,11 @@ namespace Console_Chess
                     }
                 }
                 
+                Console.Clear();
+                Screen.printGame (game);
             }
+
+
             catch (BoardException e)
             {
                 Console.WriteLine (e);
