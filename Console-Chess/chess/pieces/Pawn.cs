@@ -4,8 +4,11 @@ namespace chess
 {
     internal class Pawn : Piece
     {
-        public Pawn(Board board, Color color) : base(board, color)
+        private ChessGame Game;
+
+        public Pawn(Board board, Color color, ChessGame game) : base(board, color)
         {
+            Game = game;
         }
 
         public override string ToString()
@@ -54,6 +57,22 @@ namespace chess
                 {
                     mat[pos.Line, pos.Column] = true;
                 }
+
+                //#Special Move - En Passant
+                if (Position.Line == 3)
+                {
+                    Position left = new Position(Position.Line, Position.Column - 1);
+                    Position right = new Position(Position.Line, Position.Column + 1);
+
+                    if (Board.validPosition(left) && hasEnemy(left) && Board.Piece(left) == Game.PossibleEnPassant)
+                    {
+                        mat[left.Line - 1, left.Column] = true; 
+                    }
+                    if (Board.validPosition(right) && hasEnemy(right) && Board.Piece(right) == Game.PossibleEnPassant)
+                    {
+                        mat[right.Line - 1, right.Column] = true;
+                    }
+                }
             }
             else
             {
@@ -78,6 +97,22 @@ namespace chess
                 if (Board.validPosition(pos) && hasEnemy(pos))
                 {
                     mat[pos.Line, pos.Column] = true;
+                }
+
+                //#Special Move - En Passant
+                if (Position.Line == 4)
+                {
+                    Position left = new Position(Position.Line, Position.Column - 1);
+                    Position right = new Position(Position.Line, Position.Column + 1);
+
+                    if (Board.validPosition(left) && hasEnemy(left) && Board.Piece(left) == Game.PossibleEnPassant)
+                    {
+                        mat[left.Line + 1, left.Column] = true;
+                    }
+                    if (Board.validPosition(right) && hasEnemy(right) && Board.Piece(right) == Game.PossibleEnPassant)
+                    {
+                        mat[right.Line + 1, right.Column] = true;
+                    }
                 }
             }
 

@@ -12,6 +12,7 @@ namespace chess
         private HashSet<Piece> Pieces;
         private HashSet<Piece> Captured;
         public bool Check { get; private set; }
+        public Piece PossibleEnPassant { get; private set; }
 
         public ChessGame ()
         {
@@ -22,6 +23,7 @@ namespace chess
             Pieces = new HashSet<Piece>();
             Captured = new HashSet<Piece>();
             Check = false;
+            PossibleEnPassant = null;
             PlacePieces ();
         }
 
@@ -47,14 +49,36 @@ namespace chess
                 Board.placePiece (R, destinationR);
             }
 
-            //#Special Long - Short Castles
-            if (p is King && destination.Column == origin.Column - 2)
+            //#Special Move - Long Castles
+            else if (p is King && destination.Column == origin.Column - 2)
             {
                 Position originR = new Position(origin.Line, origin.Column - 4);
                 Position destinationR = new Position(origin.Line, origin.Column - 1);
                 Piece R = Board.takePiece(originR);
                 R.addMove();
                 Board.placePiece(R, destinationR);
+            }
+
+            //#Special Move - En Passant
+            else if (p is Pawn)
+            {
+                 if (destination.Column != origin.Column && takenPiece == null)
+                {
+                    Position posP;
+
+                    if (p.Color == Color.White)
+                    {
+                        posP = new Position(destination.Line + 1, destination.Column);
+                    }
+                    else
+                    {
+                        posP = new Position(destination.Line - 1, destination.Column);
+                    }
+
+                    takenPiece = Board.takePiece(posP);
+                    Pieces.Remove(takenPiece);
+                    Captured.Add(takenPiece);
+                }
             }
 
             return takenPiece;
@@ -85,13 +109,34 @@ namespace chess
             }
 
             //#Special Move - Long Castles
-            if (p is King && destination.Column == origin.Column - 2)
+            else if (p is King && destination.Column == origin.Column - 2)
             {
                 Position originR = new Position(origin.Line, origin.Column - 4);
                 Position destinationR = new Position(origin.Line, origin.Column - 1);
                 Piece R = Board.takePiece(destinationR);
                 R.removeMove();
                 Board.placePiece(R, originR);
+            }
+
+            //#Special Move - En Passant
+            else if (p is Pawn)
+            {
+                if (destination.Column != origin.Column && takenPiece == PossibleEnPassant)
+                {
+                    Piece pawn = Board.takePiece(destination);
+                    Position posP;
+
+                    if (p.Color == Color.White)
+                    {
+                        posP = new Position (3, destination.Column);
+                    }
+                    else
+                    {
+                        posP = new Position (4, destination.Column);
+                    }
+
+                    Board.placePiece(pawn, posP);
+                }
             }
         }
 
@@ -117,9 +162,23 @@ namespace chess
             {
                 Ended= true;
             }
+            else
+            {
+                Turn++;
+                changePlayer();
+            }
 
-            Turn++;
-            changePlayer();
+            Piece p = Board.Piece(destination);
+
+            //#Special Move - En Passant
+            if (p is Pawn && destination.Line == origin.Line - 2 || destination.Line == origin.Line + 2)
+            {
+                PossibleEnPassant = p;
+            }
+            else 
+            {
+                PossibleEnPassant = null;
+            }
         }
 
         public void validateOrigin (Position pos)
@@ -277,14 +336,14 @@ namespace chess
             placeNewPiece('f', 1, new Bishop(Board, Color.White));
             placeNewPiece('g', 1, new Knight(Board, Color.White));
             placeNewPiece('h', 1, new Rook(Board, Color.White));
-            placeNewPiece('a', 2, new Pawn(Board, Color.White));
-            placeNewPiece('b', 2, new Pawn(Board, Color.White));
-            placeNewPiece('c', 2, new Pawn(Board, Color.White));
-            placeNewPiece('d', 2, new Pawn(Board, Color.White));
-            placeNewPiece('e', 2, new Pawn(Board, Color.White));
-            placeNewPiece('f', 2, new Pawn(Board, Color.White));
-            placeNewPiece('g', 2, new Pawn(Board, Color.White));
-            placeNewPiece('h', 2, new Pawn(Board, Color.White));
+            placeNewPiece('a', 2, new Pawn(Board, Color.White, this));
+            placeNewPiece('b', 2, new Pawn(Board, Color.White, this));
+            placeNewPiece('c', 2, new Pawn(Board, Color.White, this));
+            placeNewPiece('d', 2, new Pawn(Board, Color.White, this));
+            placeNewPiece('e', 2, new Pawn(Board, Color.White, this));
+            placeNewPiece('f', 2, new Pawn(Board, Color.White, this));
+            placeNewPiece('g', 2, new Pawn(Board, Color.White, this));
+            placeNewPiece('h', 2, new Pawn(Board, Color.White, this));
 
             placeNewPiece('a', 8, new Rook(Board, Color.Black));
             placeNewPiece('b', 8, new Knight(Board, Color.Black));
@@ -294,14 +353,14 @@ namespace chess
             placeNewPiece('f', 8, new Bishop(Board, Color.Black));
             placeNewPiece('g', 8, new Knight(Board, Color.Black));
             placeNewPiece('h', 8, new Rook(Board, Color.Black));
-            placeNewPiece('a', 7, new Pawn(Board, Color.Black));
-            placeNewPiece('b', 7, new Pawn(Board, Color.Black));
-            placeNewPiece('c', 7, new Pawn(Board, Color.Black));
-            placeNewPiece('d', 7, new Pawn(Board, Color.Black));
-            placeNewPiece('e', 7, new Pawn(Board, Color.Black));
-            placeNewPiece('f', 7, new Pawn(Board, Color.Black));
-            placeNewPiece('g', 7, new Pawn(Board, Color.Black));
-            placeNewPiece('h', 7, new Pawn(Board, Color.Black));
+            placeNewPiece('a', 7, new Pawn(Board, Color.Black, this));
+            placeNewPiece('b', 7, new Pawn(Board, Color.Black, this));
+            placeNewPiece('c', 7, new Pawn(Board, Color.Black, this));
+            placeNewPiece('d', 7, new Pawn(Board, Color.Black, this));
+            placeNewPiece('e', 7, new Pawn(Board, Color.Black, this));
+            placeNewPiece('f', 7, new Pawn(Board, Color.Black, this));
+            placeNewPiece('g', 7, new Pawn(Board, Color.Black, this));
+            placeNewPiece('h', 7, new Pawn(Board, Color.Black, this));
         }
     }
 }
