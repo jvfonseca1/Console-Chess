@@ -2,7 +2,7 @@
 ![.Net](https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white)
 ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white)
 
-| [Objetivo](https://github.com/jvfonseca1/Console-Chess/tree/main#console-chess-aplication) - [Como Usar](https://github.com/jvfonseca1/Console-Chess/tree/main#como-usar) - [Correção da Fonte](https://github.com/jvfonseca1/Console-Chess/tree/main#correção-da-fonte) - [Funcionamento](https://github.com/jvfonseca1/Console-Chess/tree/main#funcionamento) - [Downloads e Releases](https://github.com/jvfonseca1/Console-Chess/tree/main#funcionamento) - [Estado Futuro](https://github.com/jvfonseca1/Console-Chess/tree/main#estado-futuro) |
+| [Objetivo](https://github.com/jvfonseca1/Console-Chess/tree/main#console-chess-aplication) - [Como Usar](https://github.com/jvfonseca1/Console-Chess/tree/main#como-usar) - [Correção da Fonte](https://github.com/jvfonseca1/Console-Chess/tree/main#correção-da-fonte) - [Funcionamento](https://github.com/jvfonseca1/Console-Chess/tree/main#funcionamento) - [Downloads e Releases](https://github.com/jvfonseca1/Console-Chess/tree/main#downloads-e-releases) - [Estado Futuro](https://github.com/jvfonseca1/Console-Chess/tree/main#estado-futuro) |
 :----------------------------------------------------------: |
 ---
 ## Objetivo
